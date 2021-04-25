@@ -1,0 +1,35 @@
+第一周作业，完成腾讯课堂12-14节内容的学习
+并完成对应作业，完成后提交到作业链接里：https://www.wjx.top/vj/rgghadA.aspx
+
+1、用自己的语言描述计算机的组成
+答：
+    计算机又硬件和在硬件上运行的软件组成。
+    计算机硬件包含控制器，运算器，存储器，输入/输出设备。其中，
+        CPU包含了控制器和运算器；
+        存储器有内存和外存；
+        输入设备包括鼠标、键盘等；
+        输出设备包括显示屏，打印机等。
+    
+
+2、nginx是一款web服务器，运行过程中会产生access.log日志，每三天重新生成一次，默认属主属组都是nginx. 
+   领导对小李说要采集nginx的日志，需要用到一款工具叫nxlog，问nxlog如何采集access.log日志比较好
+   （注，此题考察权限，不涉及具体流程）
+答：
+    假设nxlog以用户nxlog身份运行，则给予用户nxlog对access.log所属父目录可执行权限，以及对access.log只读权限。
+    如：access.log位于 /var/log/nginx/access.log
+       则需要给/var/log/nginx目录添加对nxlog的执行权限，和/var/log/nginx/access.log的只读权限。
+       （/var和/var/log默认对其它用户拥有执行权限。）
+       setfacl -m u:xlog:x /var/log/nginx
+       setfacl -m u:xlog:r /var/log/nginx/access.log
+
+3、用自己的语言简述IO重定向
+答：
+    IO重定向将进程原本的输出重新定向到其它输入输出或文件当中去，过程中使用文件描述符来判断文件打开关系。
+    文件描述符： 0 表示标准输入stdin；1表示标准输出stdout；2表示错误输出stderr；3+表示其它文件。
+    如：输出重定向使用 >来覆盖， >>来追加。 ｜ 管道可重定向左侧输出到右侧输入。
+
+
+4、找出/etc/下没有写权限w的文件（即属主属组其他用户都没有写权限）
+答：
+    ll /etc/ | awk '{if($1 !~ /w/ && $9 != "") print $9}'
+    
